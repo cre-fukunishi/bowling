@@ -11,6 +11,10 @@ describe "ボウリングのスコア計算" do
         context "すべての投球がガターだった場合" do
             it "0になること" do
                 add_many_score(20,0)
+                
+                #合計を計算
+                @game.calc_score
+                
                 expect(@game.total_score).to eq 0
             end 
         end 
@@ -19,9 +23,28 @@ describe "ボウリングのスコア計算" do
             it "20になること" do
                 add_many_score(20,1)
                 
+                #合計を計算
+                @game.calc_score
+                
                 expect(@game.total_score).to eq 20
             end 
+        end
+        
+        context "スペアをとった場合" do
+            it "スペアボーナスが加算されること" do
+                #第一プレームで3点、7点のスペア
+                @game.add_score(3)
+                @game.add_score(7)
+                #第二プレームの一投目で4点
+                @game.add_score(4)
+                #以降はすべてガター
+                add_many_score(17,0)
+                #合計を計算
+                @game.calc_score
+                
+            end 
         end 
+        
     end
     
 private
